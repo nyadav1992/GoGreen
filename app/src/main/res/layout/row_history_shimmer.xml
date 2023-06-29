@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_green"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:background="@color/teal_200"
+                    android:textFontWeight="600"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvDateTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="120dp"
+                    android:background="@color/teal_200"
+                    android:layout_marginTop="2dp"
+                    android:textFontWeight="600"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_marginTop="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_energy_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/teal_200"
+                            android:textFontWeight="600"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_energy_value_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/teal_200"
+                            android:textFontWeight="600"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_charge_duration_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textFontWeight="600"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_charge_duration_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/grey"
+                            android:textFontWeight="600"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        android:layout_weight="1.2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_charge_price_value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:textColor="@color/black"
+                            android:textFontWeight="600"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_charge_price_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:textColor="@color/grey"
+                            android:textFontWeight="600"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:gravity="center_vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/back_btn"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_top_address"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="end"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ivLocation"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/location_icon" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="6dp"
+            android:layout_toRightOf="@+id/ivLocation"
+            android:ellipsize="end"
+            android:keepScreenOn="true"
+            android:maxLines="2"
+            android:text="123 Charging Station, Industrial Colony, Pune"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivBack"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:progress="75"
+            android:src="@drawable/paid_success"
+            android:textAlignment="center"
+            app:indicatorSize="180dp"
+            app:trackColor="@color/magenta"
+            app:trackThickness="10dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvPaid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_progress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/paid"
+        android:textColor="@color/magenta_text"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvChargeConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPaid"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:maxLines="2"
+        android:text="@string/your_charge_has_been_completed_please_unplug_your_car"
+        android:textColor="@color/grey"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        style="@style/llChargingInfo"
+        android:layout_below="@+id/tvChargeConfirm"
+        android:layout_marginTop="16dp"
+        android:gravity="start">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/text_header"
+            android:text="@string/charging_summary"
+            android:textColor="@color/magenta_text" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_first"
+        style="@style/divider_style"
+        android:layout_below="@id/ll_title" />
+
+    <LinearLayout
+        android:id="@+id/ll_energy_info"
+        style="@style/llChargingInfo"
+        android:layout_below="@+id/divider_first"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvEnergyTitle"
+            style="@style/tvTitle"
+            android:text="@string/energy_delivered" />
+
+        <TextView
+            android:id="@+id/tvEnergyValue"
+            style="@style/tvDescription"
+            android:text="300 KWh" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_time_info"
+        style="@style/llChargingInfo"
+        android:layout_below="@+id/ll_energy_info"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvTimeTitle"
+            style="@style/tvTitle"
+            android:text="@string/total_time" />
+
+        <TextView
+            android:id="@+id/tvTimeValue"
+            style="@style/tvDescription"
+            android:text="115 Mins" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_cost_info"
+        style="@style/llChargingInfo"
+        android:layout_below="@+id/ll_time_info"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvCostTitle"
+            style="@style/tvTitle"
+            android:text="@string/total_cost" />
+
+        <TextView
+            android:id="@+id/tvCostValue"
+            style="@style/tvDescription"
+            android:text="Rs 510" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_voltage_info"
+        style="@style/llChargingInfo"
+        android:layout_below="@+id/ll_cost_info"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvVoltageTitle"
+            style="@style/tvTitle"
+            android:text="@string/voltage" />
+
+        <TextView
+            android:id="@+id/tvVoltageValue"
+            style="@style/tvDescription"
+            android:text="361.8 V" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_current_info"
+        style="@style/llChargingInfo"
+        android:layout_below="@+id/ll_voltage_info"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvCUrrentTitle"
+            style="@style/tvTitle"
+            android:text="@string/current" />
+
+        <TextView
+            android:id="@+id/tvCurrentValue"
+            style="@style/tvDescription"
+            android:text="51.5 A" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_second"
+        style="@style/divider_style"
+        android:layout_below="@id/ll_current_info" />
+
+    <Button
+        android:id="@+id/btnHome"
+        style="@style/btnStyle"
+        android:layout_below="@+id/divider_second"
+        android:text="Back Home" />
+
+</RelativeLayout>

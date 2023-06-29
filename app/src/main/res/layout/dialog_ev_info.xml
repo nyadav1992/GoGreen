@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivClose"
+        android:src="@drawable/iv_close"
+        android:layout_alignParentRight="true"/>
+
+    <LinearLayout
+        android:id="@+id/ll_issuer_name"
+        style="@style/llChargingInfo"
+        android:layout_below="@+id/ivClose"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvIssuerTitle"
+            style="@style/tvTitleProfile"
+            android:text="@string/issuer_name"
+            android:layout_weight="0.8"
+            android:drawableStart="@drawable/iv_person"/>
+
+        <TextView
+            android:id="@+id/tvIssuerValue"
+            style="@style/tvDescriptionProfile"
+            android:layout_weight="1.2"
+            android:text="michael@gmail.com" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_first"
+        style="@style/divider_style"
+        android:layout_below="@id/ll_issuer_name" />
+
+    <LinearLayout
+        android:id="@+id/ll_link"
+        style="@style/llChargingInfo"
+        android:layout_below="@+id/divider_first"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvLinkOne"
+            style="@style/tvDescription"
+            android:text="Link 1"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/tvLinkTwo"
+            style="@style/tvDescription"
+            android:text="Link 2"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

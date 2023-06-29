@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.history.HistoryFragment">
+
+    <TextView
+        android:id="@+id/text_historyTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:textStyle="bold"
+        android:textAlignment="textStart"
+        android:textSize="22sp"
+        android:text="@string/charge_history"
+        android:textColor="@color/magenta_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rv_history"
+        tools:itemCount="6"
+        android:layout_below="@+id/text_historyTitle"
+        tools:listitem="@layout/row_history"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/shimmer"
+        android:background="@color/white"
+        android:layout_below="@+id/text_historyTitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <include layout="@layout/row_history_shimmer"/>
+            <include layout="@layout/row_history_shimmer"/>
+            <include layout="@layout/row_history_shimmer"/>
+            <include layout="@layout/row_history_shimmer"/>
+            <include layout="@layout/row_history_shimmer"/>
+            <include layout="@layout/row_history_shimmer"/>
+            <include layout="@layout/row_history_shimmer"/>
+            <include layout="@layout/row_history_shimmer"/>
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+</RelativeLayout>

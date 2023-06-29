@@ -1,0 +1,39 @@
+<resources>
+
+    <string name="project_id">03709a9bc21b086bdf9334638dcc7065</string>
+
+
+    <string name="app_name">Go Green</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_history">History</string>
+    <string name="charge_history">Charge History</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="go_green">Go Green</string>
+    <string name="startCharging">Start Charging</string>
+    <string name="stopCharging">Stop</string>
+    <string name="pay">Pay</string>
+    <string name="back_home">Back Home</string>
+    <string name="available_energy">Available Energy :</string>
+    <string name="energy_required">Energy Required</string>
+    <string name="energy_in_rs">Energy in Rs.</string>
+    <string name="energy_delivered">Energy Delivered</string>
+    <string name="total_time">Total Time</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="rs">\u20B9</string>
+    <string name="kwh">KWh</string>
+    <string name="charging_continued">Charging Continued</string>
+    <string name="charging_done">Charging Done</string>
+    <string name="your_charge_has_been_completed_please_unplug_your_car">Your charge has been completed. Please unplug your car.</string>
+    <string name="charging_summary">Charging Summary</string>
+    <string name="voltage">Voltage</string>
+    <string name="current">Current</string>
+    <string name="paid">Paid!!</string>
+    <string name="email">Email</string>
+    <string name="number">Phone Number</string>
+    <string name="profession">Profession</string>
+
+    <string name="issuer_name"> Issuer Name</string>
+
+</resources>
