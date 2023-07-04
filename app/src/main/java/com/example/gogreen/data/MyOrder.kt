@@ -14,6 +14,7 @@ data class MyOrder(
     val transferRate: Int,
     val txn_id: String,
     val updationDate: String,
+    var transactionDate: String,
     val voltage: Int,
     var chargeDuration: String
 )

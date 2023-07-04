@@ -324,9 +324,6 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
 
         if (startChargingResponse.energyConsumed!! >= startChargingResponse.requiredEnergy!!) {
             stopCharging()
-            binding.tvTitle.text = getString(R.string.charging_done)
-            binding.ivChargeDone.visibility = View.VISIBLE
-            binding.btnSubmit.text = getString(R.string.pay)
             statusJob.cancel()
         }
     }
@@ -355,6 +352,8 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.llCostInfo.visibility = View.VISIBLE
         binding.ivChargeDone.visibility = View.GONE
         binding.tvTitleValue.visibility = View.GONE
+        binding.ivBack.visibility = View.GONE
+        binding.rlTopAddress.visibility = View.GONE
         binding.tvTitle.text = getString(R.string.charging_continued)
 
         binding.tvEnergyValue.text =
@@ -388,6 +387,10 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.tvPercent.text = percent.toInt().toString() + "%"
         binding.progressCircle.progress = percent.toInt()
         binding.btnSubmit.text = getString(R.string.stopCharging)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
 }

@@ -40,7 +40,7 @@
                     android:id="@+id/tvDateTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1/6/2023 at 9:00 am"
+                    android:text='@{myOrder.transactionDate}'
                     android:textColor="@color/grey"
                     android:layout_marginTop="2dp"
                     android:textFontWeight="600"

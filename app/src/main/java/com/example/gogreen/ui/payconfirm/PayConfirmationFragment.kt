@@ -36,7 +36,7 @@ class PayConfirmationFragment(invoiceData: Invoice) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val totalSecs = invoiceData!!.energyTransferTimeInSeconds
+        val totalSecs = invoiceData!!.energyTransferTimeInSeconds/1000
 //        val hours = totalSecs / 3600;
 //        val minutes = (totalSecs % 3600) / 60;
         val minutes = (totalSecs) / 60;

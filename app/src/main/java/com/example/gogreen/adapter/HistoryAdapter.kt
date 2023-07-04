@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gogreen.R
 import com.example.gogreen.data.MyOrder
 import com.example.gogreen.databinding.RowHistoryBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HistoryAdapter(requireActivity: FragmentActivity) : ListAdapter<MyOrder, HistoryAdapter.HistoryViewHolder>(DiffUtil()) {
     var context = requireActivity
@@ -41,6 +43,16 @@ class HistoryAdapter(requireActivity: FragmentActivity) : ListAdapter<MyOrder, H
 
         val timeString: String = String.format("%02d Min %02d Sec ", minutes, seconds)
         item.chargeDuration = timeString!!
+
+        val inputDate = item.updationDate
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy")
+        val outputTimeFormat = SimpleDateFormat("hh:mm a")
+        val date: Date = inputFormat.parse(inputDate)
+        val outputDate: String = outputFormat.format(date)
+        val outputTime: String = outputTimeFormat.format(date)
+        println(outputDate +" at " + outputTime)
+        item.transactionDate = "$outputDate at $outputTime"
 
         rowHistoryBinding.myOrder = item
         if (position%2 == 0)

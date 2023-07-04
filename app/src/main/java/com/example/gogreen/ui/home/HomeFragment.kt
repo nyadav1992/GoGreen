@@ -1,10 +1,12 @@
 package com.example.gogreen.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -24,6 +26,12 @@ import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
+import org.json.JSONException
+
+import org.json.JSONObject
+
+
+
 
 
 @AndroidEntryPoint
@@ -64,14 +72,14 @@ class HomeFragment : Fragment() {
         binding.ivBarcode.setOnClickListener {
 
 //            launchChargingInfoFragment()
-            binding.pBar.visibility = View.VISIBLE
-            job = homeViewModel.getStationInfo("1")
-            observeStationInfoData()
+//            binding.pBar.visibility = View.VISIBLE
+//            job = homeViewModel.getStationInfo("1")
+//            observeStationInfoData()
 //            homeViewModel.getStationInfo("0xfDb51BEC9453E011780000bbd5257397AB78c452")
 
 
 
-//            launchBarcodeScanner()
+            launchBarcodeScanner()
 
         }
 
@@ -96,8 +104,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun launchBarcodeScanner() {
+
+        val scannedQrCode = "{\"station-id\":\"Nissan Urvan Original 12v\",\"price\":\"2500\"}"
+        try {
+            val mainObject = JSONObject(scannedQrCode)
+            Log.e("TESTING", "" + mainObject.get("name") + mainObject.get("price"))
+        } catch (jsonException: JSONException) {
+            jsonException.printStackTrace()
+        }
+
             val options = ScanOptions()
-            options.setDesiredBarcodeFormats(ScanOptions.ALL_CODE_TYPES)
+            options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
             options.setPrompt("Scan a Qr Code")
             options.captureActivity = CaptureActivityPortrait::class.java
             options.setBeepEnabled(true)
@@ -108,11 +125,19 @@ class HomeFragment : Fragment() {
         ScanContract()
     ) { result: ScanIntentResult ->
         if (result.contents == null) {
-//            Toast.makeText(requireActivity(), "Cancelled", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireActivity(), "No data capture!!, Please Scan Again", Toast.LENGTH_LONG).show()
         } else {
             binding.pBar.visibility = View.VISIBLE
-            job = homeViewModel.getStationInfo(result.contents)
-            Preferences.saveData(AppConstants.STATION_ID, "0xfDb51BEC9453E011780000bbd5257397AB78c452")
+            try {
+                val mainObject = JSONObject(result.contents.toString())
+                val id:String = mainObject.get("station-id").toString()
+                Preferences.saveData(AppConstants.STATION_ID, id)
+                job = homeViewModel.getStationInfo(id)
+                Toast.makeText(requireActivity(), id, Toast.LENGTH_LONG).show()
+            } catch (jsonException: JSONException) {
+                jsonException.printStackTrace()
+                Toast.makeText(requireActivity(), jsonException.toString(), Toast.LENGTH_LONG).show()
+            }
             observeStationInfoData()
 
 //            launchChargingInfoFragment()

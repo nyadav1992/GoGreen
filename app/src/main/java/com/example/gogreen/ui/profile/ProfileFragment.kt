@@ -76,8 +76,8 @@ class ProfileFragment : Fragment() {
     private fun setUpUi(stationInfo: StationInfo) {
         binding.tvName.text = stationInfo.station_data!!.station_name
         binding.tvAddressValue.text = stationInfo.station_data!!.station_address
-        binding.tvCurrentValue.text = stationInfo.station_data!!.current.toString()
-        binding.tvVoltageValue.text = stationInfo.station_data!!.voltage.toString()
+        binding.tvCurrentValue.text = stationInfo.station_data!!.current.toString() + " A"
+        binding.tvVoltageValue.text = stationInfo.station_data!!.voltage.toString() + " V"
     }
 
     override fun onDestroyView() {

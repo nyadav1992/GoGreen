@@ -30,9 +30,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_progress"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:text="@string/transaction_success"
             android:textColor="@color/magenta_text"
-            android:textSize="26sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView
@@ -59,7 +60,7 @@
             <TextView
                 android:id="@+id/tvTitle"
                 style="@style/text_header"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:text="@string/order_summary"
                 android:textColor="@color/magenta_text" />
 
