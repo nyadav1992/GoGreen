@@ -27,12 +27,17 @@
     <string name="charging_done">Charging Done</string>
     <string name="your_charge_has_been_completed_please_unplug_your_car">Your charge has been completed. Please unplug your car.</string>
     <string name="charging_summary">Charging Summary</string>
+    <string name="order_summary">Order Summary</string>
     <string name="voltage">Voltage</string>
     <string name="current">Current</string>
     <string name="paid">Paid!!</string>
-    <string name="email">Email</string>
+    <string name="transaction_success">Transaction Successful!!</string>
+    <string name="address">Address</string>
     <string name="number">Phone Number</string>
     <string name="profession">Profession</string>
+    <string name="order_id">Order Id</string>
+    <string name="transaction_id">Transaction Id</string>
+    <string name="total_amount">Total Amount</string>
 
     <string name="issuer_name"> Issuer Name</string>
 

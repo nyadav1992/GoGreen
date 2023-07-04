@@ -7,23 +7,35 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.gogreen.MainActivity
 import com.example.gogreen.R
+import com.example.gogreen.data.PayChargingRequest
 import com.example.gogreen.data.StartChargingRequest
+import com.example.gogreen.data.StartChargingResponse
 import com.example.gogreen.data.StationData
+import com.example.gogreen.data.StopChargingRequest
+import com.example.gogreen.data.StopChargingResponse
 import com.example.gogreen.databinding.FragmentStationInfoChargingBinding
 import com.example.gogreen.dialog.IssuerInfoDialog
-import com.example.gogreen.ui.payconfirm.PayConfirmationFragment
+import com.example.gogreen.dialog.PayConfirmDialog
+import com.example.gogreen.ui.home.AppConstants
+import com.example.gogreen.utils.Preferences
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClickListener {
+    private lateinit var stopChargingJob: Job
+    private lateinit var payChargingJob: Job
+    private lateinit var stopChargingResponse: StopChargingResponse
+    private lateinit var startChargingJob: Job
+    private lateinit var statusJob: Job
     private var stationInfoData: StationData = stationInfo
 
     private var energy: Double = 0.00
@@ -102,7 +114,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
                 return@addTextChangedListener
             } else binding.btnSubmit.isEnabled = it.toString().toDouble() > 0
 
-            price = it.toString().toDouble() * 17
+            price = it.toString().toDouble() * stationInfoData.energy_rate
             energy = it.toString().toDouble()
 
             binding.tvCostValueEdit.text =
@@ -114,7 +126,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
                 binding.tvEnergyValueEdit.text = "0 " + getString(R.string.kwh)
                 return@addTextChangedListener
             } else binding.btnSubmit.isEnabled = it.toString().toDouble() > 0
-            energy = it.toString().toDouble() / 17
+            energy = it.toString().toDouble() / stationInfoData.energy_rate
             price = it.toString().toDouble()
 
             binding.tvEnergyValueEdit.text =
@@ -123,13 +135,22 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
     }
 
     private fun showSoftKeyboard(etView: EditText) {
-        val imm = getSystemService(requireActivity(), InputMethodManager::class.java) as InputMethodManager?
+        val imm = getSystemService(
+            requireActivity(),
+            InputMethodManager::class.java
+        ) as InputMethodManager?
         imm!!.showSoftInput(etView, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun hideSoftKeyboard() {
-        val imm = getSystemService(requireActivity(), InputMethodManager::class.java) as InputMethodManager?
-        imm!!.hideSoftInputFromWindow(binding.etEnergyValueEdit.windowToken, InputMethodManager.SHOW_IMPLICIT)
+        val imm = getSystemService(
+            requireActivity(),
+            InputMethodManager::class.java
+        ) as InputMethodManager?
+        imm!!.hideSoftInputFromWindow(
+            binding.etEnergyValueEdit.windowToken,
+            InputMethodManager.SHOW_IMPLICIT
+        )
     }
 
     private fun initialViewSetup() {
@@ -141,9 +162,13 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.ivChargeDone.visibility = View.GONE
         binding.btnSubmit.text = getString(R.string.startCharging)
         binding.btnSubmit.isEnabled = false
-
-        binding.tvTitleValue.text = stationInfoData.available_energy.toString() + ""
-        binding.tvAddress.text = stationInfoData.station_name + " " + stationInfoData.station_address
+        binding.tvEnergyValueEdit.hint = "Energy in " + stationInfoData.energy_unit
+        binding.tvCostValueEdit.hint =
+            "1 " + stationInfoData.energy_unit + " = " + getString(R.string.rs) + stationInfoData.energy_rate
+        binding.tvTitleValue.text =
+            " " + stationInfoData.available_energy.toString() + " " + stationInfoData.energy_unit
+        binding.tvAddress.text =
+            stationInfoData.station_name + "\n" + stationInfoData.station_address
     }
 
     override fun onDetach() {
@@ -157,27 +182,29 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
             binding.ivBack -> {
                 (activity as MainActivity).onBackPressed()
             }
+
             binding.btnSubmit -> {
-                when (binding.btnSubmit.text){
+                when (binding.btnSubmit.text) {
                     getString(R.string.startCharging) -> {
                         startCharging()
                     }
+
                     getString(R.string.stopCharging) -> {
-                        startChargingUiSetup()
-                        binding.tvTitle.text = getString(R.string.charging_done)
-                        binding.ivChargeDone.visibility = View.VISIBLE
-                        binding.btnSubmit.text = getString(R.string.pay)
+//                        startChargingUiSetup(it)
+                        statusJob.cancel()
+                        startChargingJob.cancel()
+                        stopCharging()
                     }
+
                     getString(R.string.pay) -> {
-                        requireActivity().supportFragmentManager.popBackStack()
-                        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-                        transaction.add(R.id.container, PayConfirmationFragment(), "Station")
-                        transaction.addToBackStack(null)
-                        transaction.commitAllowingStateLoss()
+                        startChargingJob.cancel()
+                        payForCharging()
+//                        showPayDialog(stopChargingResponse)
                     }
                 }
 
             }
+
             binding.ivIssuerInfo -> {
                 IssuerInfoDialog().show(childFragmentManager, "IssuerDialog")
             }
@@ -185,20 +212,142 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
     }
 
     private fun startCharging() {
-        val startChargingRequest = StartChargingRequest("1", energy.toInt(), stationInfoData.id)
-        viewModel.getStationInfo(startChargingRequest)
+        binding.pBar.visibility = View.VISIBLE
+        binding.pBar.isClickable = true
+        binding.etCostValueEdit.isEnabled = false
+        binding.etEnergyValueEdit.isEnabled = false
+        val startChargingRequest =
+            StartChargingRequest(
+                "1",
+                Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!,
+                energy.toInt()
+            )
+        startChargingJob = viewModel.startCharging(startChargingRequest)
 
         observeChargingData()
     }
 
+    private fun stopCharging() {
+        binding.pBar.visibility = View.VISIBLE
+        binding.pBar.isClickable = true
+        val stopChargingRequest =
+            StopChargingRequest(
+                "1",
+                Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!
+            )
+        stopChargingJob = viewModel.stopCharging(stopChargingRequest)
+        observeStopCharging()
+    }
+
+    private fun payForCharging() {
+        binding.pBar.visibility = View.VISIBLE
+        binding.pBar.isClickable = true
+        val payChargingRequest =
+            PayChargingRequest(
+                stopChargingResponse.invoice!!.order_id,
+                true,
+                Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!
+            )
+        payChargingJob = viewModel.payCharging(payChargingRequest)
+        observePayCharging()
+    }
+
     private fun observeChargingData() {
-        viewModel.chargingStatusData.observe(this){
-            println(it.message)
-            startChargingUiSetup()
+        viewModel.chargingStatusData.observe(this) {
+
+            it?.let {
+                when (it.status) {
+                    true -> {
+                        println(it.message)
+                        savePreferences(it)
+                        startChargingUiSetup(it)
+                        hideProgressBar()
+                        println("success")
+                        callProgressApi(it)
+
+                    }
+
+                    else -> {
+                        println("fail")
+                    }
+                }
+            }
+
+
         }
     }
 
-    private fun startChargingUiSetup() {
+    private fun observeStopCharging() {
+        viewModel.chargingStopData.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.pBar.visibility = View.GONE
+                when (it.status) {
+                    true -> {
+                        stopChargingResponse = it
+                        binding.tvTitle.text = getString(R.string.charging_done)
+                        binding.ivChargeDone.visibility = View.VISIBLE
+                        binding.btnSubmit.text = getString(R.string.pay)
+                    }
+
+                    else -> {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observePayCharging() {
+        viewModel.chargingPayData.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.pBar.visibility = View.GONE
+                when (it.status) {
+                    true -> {
+                        showPayDialog(it)
+                    }
+
+                    else -> {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showPayDialog(stopChargingResponse: StopChargingResponse) {
+        PayConfirmDialog(stopChargingResponse).show(childFragmentManager, "IssuerDialog")
+    }
+
+    private fun callProgressApi(startChargingResponse: StartChargingResponse) {
+        statusJob =
+            viewModel.getProgress(Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!, "1")
+
+        if (startChargingResponse.energyConsumed!! >= startChargingResponse.requiredEnergy!!) {
+            stopCharging()
+            binding.tvTitle.text = getString(R.string.charging_done)
+            binding.ivChargeDone.visibility = View.VISIBLE
+            binding.btnSubmit.text = getString(R.string.pay)
+            statusJob.cancel()
+        }
+    }
+
+    private fun hideProgressBar() {
+        binding.pBar.visibility = View.GONE
+        binding.pBar.isClickable = false
+        binding.etCostValueEdit.isEnabled = true
+        binding.etEnergyValueEdit.isEnabled = true
+    }
+
+    private fun savePreferences(startChargingResponse: StartChargingResponse) {
+        Preferences.saveData(AppConstants.ENERGY_UNIT, stationInfoData.energy_unit)
+        Preferences.saveData(
+            AppConstants.REQUIRED_ENERGY,
+            startChargingResponse.requiredEnergy.toString()
+        )
+        Preferences.saveData(AppConstants.ENERGY_RATE, stationInfoData.energy_rate.toString())
+    }
+
+    private fun startChargingUiSetup(startChargingResponse: StartChargingResponse) {
         binding.llEnergyInfoEdit.visibility = View.GONE
         binding.llCostInfoEdit.visibility = View.GONE
         binding.llEnergyInfo.visibility = View.VISIBLE
@@ -207,8 +356,37 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.ivChargeDone.visibility = View.GONE
         binding.tvTitleValue.visibility = View.GONE
         binding.tvTitle.text = getString(R.string.charging_continued)
-        binding.tvPercent.text = "75%"
-        binding.progressCircle.progress = 75
+
+        binding.tvEnergyValue.text =
+            startChargingResponse.energyConsumed.toString() + " " + Preferences.getData(
+                AppConstants.ENERGY_UNIT,
+                ""
+            )
+        var timeString = "0"
+        if (startChargingResponse.timePassed!! > 0) {
+            val totalSecs = startChargingResponse.timePassed!! / 1000
+            //        val hours = totalSecs / 3600;
+//        val minutes = (totalSecs % 3600) / 60;
+            val minutes = (totalSecs) / 60;
+            val seconds = totalSecs % 60;
+
+            timeString = String.format("%02d Min %02d Sec ", minutes, seconds)
+
+        }
+
+        binding.tvTimeValue.text = timeString
+        if (startChargingResponse.price == 0)
+            binding.tvCostValue.text =
+                "Rs " + (startChargingResponse.totalPrice!! * startChargingResponse.energyConsumed!!).toString()
+        else
+            binding.tvCostValue.text =
+                "Rs " + (startChargingResponse.price!! * startChargingResponse.energyConsumed!!).toString()
+
+        val percent: Double =
+            (startChargingResponse.energyConsumed!!.toDouble() / startChargingResponse.requiredEnergy!!.toDouble()) * 100
+
+        binding.tvPercent.text = percent.toInt().toString() + "%"
+        binding.progressCircle.progress = percent.toInt()
         binding.btnSubmit.text = getString(R.string.stopCharging)
     }
 

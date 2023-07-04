@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_centerHorizontal="true"
+                android:progress="75"
+                android:src="@drawable/meta_mask"
+                android:textAlignment="center"
+                app:indicatorSize="180dp"
+                app:trackColor="@color/magenta"
+                app:trackThickness="10dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvPaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_progress"
+            android:layout_centerHorizontal="true"
+            android:text="@string/transaction_success"
+            android:textColor="@color/magenta_text"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTxnId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvPaid"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:maxLines="2"
+            android:text="0xfDb51BEC9453E011780000bbd5257397AB78c452"
+            android:textColor="@color/teal_200"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            style="@style/llChargingInfo"
+            android:layout_below="@+id/tvTxnId"
+            android:layout_marginTop="16dp"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/text_header"
+                android:textSize="18sp"
+                android:text="@string/order_summary"
+                android:textColor="@color/magenta_text" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider_first"
+            style="@style/divider_style"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/ll_title" />
+
+        <LinearLayout
+            android:id="@+id/ll_energy_info"
+            style="@style/llChargingInfo"
+            android:layout_below="@+id/divider_first"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/tvEnergyTitle"
+                style="@style/tvTitle"
+                android:text="@string/order_id" />
+
+            <TextView
+                android:id="@+id/tvOrderId"
+                style="@style/tvDescription"
+                android:text="1688032374703" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_time_info"
+            style="@style/llChargingInfo"
+            android:layout_below="@+id/ll_energy_info"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/tvTimeTitle"
+                style="@style/tvTitle"
+                android:text="@string/total_time" />
+
+            <TextView
+                android:id="@+id/tvTimeValue"
+                style="@style/tvDescription"
+                android:text="115 Mins" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_cost_info"
+            style="@style/llChargingInfo"
+            android:layout_below="@+id/ll_time_info"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/tvCostTitle"
+                style="@style/tvTitle"
+                android:text="@string/total_amount" />
+
+            <TextView
+                android:id="@+id/tvCostValue"
+                style="@style/tvDescription"
+                android:text="Rs 510" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider_second"
+            style="@style/divider_style"
+            android:layout_below="@id/ll_cost_info" />
+
+        <Button
+            android:id="@+id/btnHome"
+            style="@style/btnStyle"
+            android:layout_below="@+id/divider_second"
+            android:text="Done" />
+
+</RelativeLayout>

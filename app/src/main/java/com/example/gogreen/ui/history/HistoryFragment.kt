@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gogreen.MainActivity
 import com.example.gogreen.adapter.HistoryAdapter
@@ -42,7 +41,7 @@ class HistoryFragment : Fragment() {
         historyViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        Preferences.saveData(AppConstants.STATION_ID, "0xb8E506fF8F26E9517b158F5Ac9dCD1bc4D29E890")
+        Preferences.saveData(AppConstants.STATION_ID, "0xfDb51BEC9453E011780000bbd5257397AB78c452")
 
         return root
     }
@@ -56,14 +55,14 @@ class HistoryFragment : Fragment() {
     }
 
     private fun observeHistoryData() {
-        historyViewModel.historyData.observe(this){
-            val adapter: HistoryAdapter = HistoryAdapter()
+        historyViewModel.historyData.observe(viewLifecycleOwner){
+            val adapter: HistoryAdapter = HistoryAdapter(requireActivity())
             binding.rvHistory.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             binding.rvHistory.adapter = adapter
             adapter.submitList(it.myOrders)
             binding.shimmer.stopShimmer()
             binding.shimmer.visibility = View.GONE
-//            it.status
+//
         }
     }
 

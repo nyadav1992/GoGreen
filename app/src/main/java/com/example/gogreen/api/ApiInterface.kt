@@ -14,12 +14,24 @@ interface ApiInterface {
     suspend fun getCategory(@Query("page") login: String, @Query("per_page") perPage: String) : Response<DummyResponse>*/
 
     @GET("chargingInfo")
-    suspend fun getStationInfo(@Query("id") id: String) : StationInfo
+    suspend fun getStationInfo(@Query("station_id") id: String) : StationInfo
+
+    @GET("chargingInfo")
+    suspend fun getProfileInfo(@Query("my_wallet_address") my_wallet_address: String) : StationInfo
 
     @POST("chargingInfo/start_charging")
     suspend fun startCharging(@Body req: StartChargingRequest) : StartChargingResponse
 
+    @POST("chargingInfo/stop_charging")
+    suspend fun stopCharging(@Body req: StopChargingRequest) : StopChargingResponse
+
+    @POST("chargingInfo/pay_charging")
+    suspend fun payCharging(@Body req: PayChargingRequest) : StopChargingResponse
+
     @GET("history")
-    suspend fun getHistoryData(@Query("my_id") id: String) : HistoryData
+    suspend fun getHistoryData(@Query("my_wallet_address") my_wallet_address: String) : HistoryData
+
+    @GET("chargingInfo/charging_progress")
+    suspend fun getProgress(@Query("my_wallet_address") my_wallet_address: String, @Query("station_id") station_id: String) : StartChargingResponse
 
 }

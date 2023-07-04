@@ -8,5 +8,6 @@ data class StartChargingResponse(
     val requiredEnergy: Int? = 0,
     val timePassed: Int? = 0,
     val totalTime: Int? = 0,
-    val transferRate: Int? = 0
+    val transferRate: Int? = 0,
+    val totalPrice: Int? = 0
 )

@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.example.gogreen.CaptureActivityPortrait
 import com.example.gogreen.MainActivity
 import com.example.gogreen.R
@@ -20,11 +23,13 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
+    private lateinit var job: Job
     private var _binding: FragmentHomeBinding? = null
 
     private val homeViewModel : HomeViewModel by viewModels()
@@ -54,12 +59,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Preferences.saveData(AppConstants.STATION_ID, "0xfDb51BEC9453E011780000bbd5257397AB78c452")
 
         binding.ivBarcode.setOnClickListener {
 
 //            launchChargingInfoFragment()
-
-            homeViewModel.getStationInfo("0x08803E271cD9097aD002Bf95Bf01142A654BAf6E")
+            binding.pBar.visibility = View.VISIBLE
+            job = homeViewModel.getStationInfo("1")
+            observeStationInfoData()
+//            homeViewModel.getStationInfo("0xfDb51BEC9453E011780000bbd5257397AB78c452")
 
 
 
@@ -67,13 +75,12 @@ class HomeFragment : Fragment() {
 
         }
 
-        observeStationInfoData()
-
     }
 
     private fun observeStationInfoData() {
-        homeViewModel.stationData.observe(this){
+        homeViewModel.stationData.observeOnce(this){
             it?.let {
+                binding.pBar.visibility = View.GONE
                 when (it.status){
                     true ->
                     {
@@ -103,9 +110,10 @@ class HomeFragment : Fragment() {
         if (result.contents == null) {
 //            Toast.makeText(requireActivity(), "Cancelled", Toast.LENGTH_LONG).show()
         } else {
-
-            homeViewModel.getStationInfo(result.contents)
-            Preferences.saveData(AppConstants.STATION_ID, "0xb8E506fF8F26E9517b158F5Ac9dCD1bc4D29E890")
+            binding.pBar.visibility = View.VISIBLE
+            job = homeViewModel.getStationInfo(result.contents)
+            Preferences.saveData(AppConstants.STATION_ID, "0xfDb51BEC9453E011780000bbd5257397AB78c452")
+            observeStationInfoData()
 
 //            launchChargingInfoFragment()
         }
@@ -119,7 +127,16 @@ class HomeFragment : Fragment() {
         transaction.addToBackStack(null)
         transaction.commitAllowingStateLoss()
 
-        requireActivity().viewModelStore.clear()
+        job.cancel()
+    }
+
+    fun <T> LiveData<T>.observeOnce(owner: LifecycleOwner, observer: (T) -> Unit) {
+        observe(owner, object: Observer<T> {
+            override fun onChanged(value: T) {
+                removeObserver(this)
+                observer(value)
+            }
+        })
     }
 
     override fun onDestroyView() {

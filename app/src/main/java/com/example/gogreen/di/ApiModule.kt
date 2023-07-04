@@ -3,6 +3,7 @@ package com.example.gogreen.di
 import com.example.gogreen.api.ApiInterface
 import com.example.gogreen.ui.history.HistoryRepo
 import com.example.gogreen.ui.home.HomeRepo
+import com.example.gogreen.ui.profile.ProfileRepo
 import com.example.gogreen.ui.stationinfo.StationInfoRepo
 import dagger.Module
 import dagger.Provides
@@ -20,7 +21,7 @@ class ApiModule {
 
     @Provides
     fun provideBaseUrl(): String{
-        return "http://20.241.108.184:3004/"
+        return "http://20.241.108.184:3003/"
     }
 
     @Provides
@@ -78,5 +79,10 @@ class ApiModule {
     @Provides
     fun provideHistoryRepo(apiInterface: ApiInterface): HistoryRepo {
         return HistoryRepo(apiInterface)
+    }
+
+    @Provides
+    fun provideProfileRepo(apiInterface: ApiInterface): ProfileRepo {
+        return ProfileRepo(apiInterface)
     }
 }

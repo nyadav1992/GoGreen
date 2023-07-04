@@ -17,10 +17,10 @@
             android:id="@+id/card_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_green"
             app:cardCornerRadius="12dp">
 
             <LinearLayout
+                android:id="@+id/ll_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/background_green"
@@ -31,7 +31,7 @@
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MH 648, Station 1"
+                    android:text='@{myOrder.seller_name + ", " + myOrder.seller_location}'
                     android:textColor="@color/black"
                     android:textFontWeight="600"
                     android:textSize="18sp" />
@@ -63,7 +63,7 @@
                             android:id="@+id/tv_energy_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text='@{Integer.toString(myOrder.energy_amount)}'
+                            android:text='@{Integer.toString(myOrder.energy_amount) + " KWh"}'
                             android:textColor="@color/black"
                             android:textFontWeight="600"
                             android:textSize="12sp" />
@@ -88,7 +88,7 @@
                             android:id="@+id/tv_charge_duration_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="1 hr 20 Min 30 Sec"
+                            android:text='@{myOrder.chargeDuration}'
                             android:textColor="@color/black"
                             android:textFontWeight="600"
                             android:textSize="12sp" />
@@ -115,7 +115,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
-                            android:text='@{("Rs " + myOrder.total_cost)}'
+                            android:text='@{"Rs " + myOrder.total_cost}'
                             android:textColor="@color/black"
                             android:textFontWeight="600"
                             android:textSize="12sp" />

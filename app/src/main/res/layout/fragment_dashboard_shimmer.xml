@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivBack"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/ivProfile"
+            android:layout_centerHorizontal="true"
+            android:progress="75"
+            android:src="@drawable/round_corner_green"
+            android:textAlignment="center"
+            app:indicatorSize="180dp"
+            app:trackColor="@color/magenta"
+            app:trackThickness="10dp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:background="@color/background_green"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/ll_email"
+        style="@style/llChargingInfo"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvEmailTitle"
+            style="@style/tvTitleProfile"
+            android:background="@color/background_green"
+            android:layout_marginEnd="40dp"/>
+
+        <TextView
+            android:id="@+id/tvEmailValue"
+            style="@style/tvDescriptionProfile"
+            android:background="@color/background_green"
+            android:layout_marginStart="40dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_number"
+        style="@style/llChargingInfo"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvNumberTitle"
+            style="@style/tvTitleProfile"
+            android:background="@color/background_green"
+            android:layout_marginEnd="40dp" />
+
+        <TextView
+            android:id="@+id/tvNumberValue"
+            style="@style/tvDescriptionProfile"
+            android:background="@color/background_green"
+            android:layout_marginStart="40dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_profession"
+        style="@style/llChargingInfo"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tvProfessionTitle"
+            style="@style/tvTitleProfile"
+            android:background="@color/background_green"
+            android:layout_marginEnd="40dp" />
+
+        <TextView
+            android:id="@+id/tvProfessionValue"
+            style="@style/tvDescriptionProfile"
+            android:background="@color/background_green"
+            android:layout_marginStart="40dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

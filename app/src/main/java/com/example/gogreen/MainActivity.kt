@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.gogreen.databinding.ActivityMainBinding
+import com.example.gogreen.ui.home.AppConstants
+import com.example.gogreen.utils.Preferences
 import com.example.gogreen.viewmodel.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Preferences.saveData(AppConstants.WALLET_ADDRESS, "0xfDb51BEC9453E011780000bbd5257397AB78c452")
 
         binding.toolbar.title = getString(R.string.go_green)
         binding.toolbar.setTitleTextColor(getColor(R.color.white))
