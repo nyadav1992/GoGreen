@@ -123,14 +123,14 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.etCostValueEdit.addTextChangedListener {
             if (it.toString().isEmpty()) {
                 binding.btnSubmit.isEnabled = false
-                binding.tvEnergyValueEdit.text = "0 " + getString(R.string.kwh)
+                binding.tvEnergyValueEdit.text = "0 " + Preferences.getData(AppConstants.ENERGY_UNIT,"")
                 return@addTextChangedListener
             } else binding.btnSubmit.isEnabled = it.toString().toDouble() > 0
             energy = it.toString().toDouble() / stationInfoData.energy_rate
             price = it.toString().toDouble()
 
             binding.tvEnergyValueEdit.text =
-                dfZero.format(energy).toString() + " " + getString(R.string.kwh)
+                dfZero.format(energy).toString() + " " + Preferences.getData(AppConstants.ENERGY_UNIT,"")
         }
     }
 

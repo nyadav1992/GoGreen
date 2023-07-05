@@ -15,5 +15,6 @@ data class Invoice(
     val txn_id: String,
     val updationDate: String,
     val voltage: Int,
-    var timeString: String = ""
+    var timeString: String = "",
+    var energy_unit: String = ""
 )

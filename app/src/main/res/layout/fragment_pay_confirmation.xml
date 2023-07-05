@@ -137,7 +137,7 @@
             <TextView
                 android:id="@+id/tvEnergyValue"
                 style="@style/tvDescription"
-                android:text='@{invoiceData.energy_amount + " KWh"}' />
+                android:text='@{invoiceData.energy_amount + " " + invoiceData.energy_unit}' />
 
         </LinearLayout>
 

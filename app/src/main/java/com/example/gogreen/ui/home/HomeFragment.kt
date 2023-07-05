@@ -93,6 +93,7 @@ class HomeFragment : Fragment() {
                     true ->
                     {
                         launchChargingInfoFragment(it)
+                        Preferences.saveData(AppConstants.ENERGY_UNIT, it.station_data!!.energy_unit)
                         println("success fail")
                     }
                     else -> {
@@ -104,15 +105,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun launchBarcodeScanner() {
-
-        val scannedQrCode = "{\"station-id\":\"Nissan Urvan Original 12v\",\"price\":\"2500\"}"
-        try {
-            val mainObject = JSONObject(scannedQrCode)
-            Log.e("TESTING", "" + mainObject.get("name") + mainObject.get("price"))
-        } catch (jsonException: JSONException) {
-            jsonException.printStackTrace()
-        }
-
             val options = ScanOptions()
             options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
             options.setPrompt("Scan a Qr Code")

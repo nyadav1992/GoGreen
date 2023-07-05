@@ -16,5 +16,6 @@ data class MyOrder(
     val updationDate: String,
     var transactionDate: String,
     val voltage: Int,
-    var chargeDuration: String
+    var chargeDuration: String,
+    val energy_unit: String
 )

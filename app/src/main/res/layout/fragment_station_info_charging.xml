@@ -117,7 +117,7 @@
             <TextView
                 android:id="@+id/tvTitleValue"
                 style="@style/text_header"
-                android:text=" 300 KWh"
+                android:text=" "
                 android:textColor="@color/blue_text" />
 
         </LinearLayout>
@@ -165,7 +165,6 @@
                     android:layout_marginBottom="2dp"
                     android:background="@color/white"
                     android:gravity="center"
-                    android:hint="Energy in KWh"
                     android:inputType="numberDecimal"
                     android:textColor="@color/blue_text"
                     android:textSize="16sp" />
@@ -206,14 +205,12 @@
                     android:id="@+id/tvCostValueEdit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="2dp"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginEnd="2dp"
                     android:layout_marginBottom="2dp"
                     android:background="@color/white"
                     android:gravity="center"
-                    android:hint="1 KWh = Rs 17"
                     android:inputType="numberDecimal"
                     android:textColor="@color/blue_text"
                     android:textSize="16sp" />
@@ -239,7 +236,7 @@
             <TextView
                 android:id="@+id/tvEnergyValue"
                 style="@style/tvDescription"
-                android:text="300 KWh"
+                android:text=""
                 android:textAlignment="textEnd" />
 
         </LinearLayout>
