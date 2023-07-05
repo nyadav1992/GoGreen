@@ -33,6 +33,13 @@ class StationInfoRepo(private val apiInterface: ApiInterface) {
             return payChargeLiveData
         }
 
+    private var verifyLiveData = MutableLiveData<VerifyIssuerResponse>()
+
+    val verifyStatusData: LiveData<VerifyIssuerResponse>
+        get() {
+            return verifyLiveData
+        }
+
     fun getChargingStatusInfo(req: StartChargingRequest): Job {
         var job: Job? = null
         try {
@@ -52,6 +59,29 @@ class StationInfoRepo(private val apiInterface: ApiInterface) {
             return job
         } catch (e: Exception){
             chargeStatusLiveData.postValue(StartChargingResponse(false, e.message))
+        }
+        return job!!
+    }
+
+    fun verifyIssuer(req: String): Job {
+        var job: Job? = null
+        try {
+            job = MainScope().launch(Dispatchers.IO) {
+                var response: VerifyIssuerResponse
+                try {
+                    response = apiInterface.verifyIssuer(req)
+                    if (response.status){
+                        verifyLiveData.postValue(response)
+                    } else {
+                        verifyLiveData.postValue(VerifyIssuerResponse(null, false, response.message))
+                    }
+                } catch (e: Exception){
+                    verifyLiveData.postValue(VerifyIssuerResponse(null, false, e.message!!))
+                }
+            }
+            return job
+        } catch (e: Exception){
+            verifyLiveData.postValue(VerifyIssuerResponse(null, false, e.message!!))
         }
         return job!!
     }

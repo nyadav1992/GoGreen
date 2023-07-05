@@ -11,18 +11,38 @@
         android:src="@drawable/iv_close"
         android:layout_alignParentRight="true"/>
 
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:id="@+id/ivVerify"
+        android:src="@drawable/verify"
+        android:layout_below="@+id/ivClose"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/tvCertificateTitle"
+        style="@style/tvTitleProfile"
+        android:text="@string/certificate"
+        android:layout_below="@+id/ivVerify"/>
+
+    <TextView
+        android:id="@+id/tvCertificateValue"
+        style="@style/tvDescriptionProfile"
+        android:layout_below="@+id/tvCertificateTitle"/>
+
     <LinearLayout
         android:id="@+id/ll_issuer_name"
         style="@style/llChargingInfo"
-        android:layout_below="@+id/ivClose"
+        android:layout_below="@+id/ivVerify"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
         android:weightSum="2">
 
         <TextView
             android:id="@+id/tvIssuerTitle"
             style="@style/tvTitleProfile"
-            android:text="@string/issuer_name"
-            android:layout_weight="0.8"
-            android:drawableStart="@drawable/iv_person"/>
+            android:text="@string/certificate"
+            android:layout_weight="0.8"/>
 
         <TextView
             android:id="@+id/tvIssuerValue"
@@ -35,7 +55,7 @@
     <View
         android:id="@+id/divider_first"
         style="@style/divider_style"
-        android:layout_below="@id/ll_issuer_name" />
+        android:layout_below="@id/tvCertificateValue" />
 
     <LinearLayout
         android:id="@+id/ll_link"
@@ -46,8 +66,8 @@
         <TextView
             android:id="@+id/tvLinkOne"
             style="@style/tvDescription"
-            android:text="Link 1"
-            android:textStyle="bold"
+            android:textSize="12sp"
+            android:text="@string/check_verification_status"
             android:textAlignment="center"/>
 
         <TextView
@@ -55,6 +75,7 @@
             style="@style/tvDescription"
             android:text="Link 2"
             android:textStyle="bold"
+            android:visibility="gone"
             android:textAlignment="center"/>
 
     </LinearLayout>

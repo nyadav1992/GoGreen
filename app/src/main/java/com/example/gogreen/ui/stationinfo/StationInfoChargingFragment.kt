@@ -35,6 +35,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
     private lateinit var payChargingJob: Job
     private lateinit var stopChargingResponse: StopChargingResponse
     private lateinit var startChargingJob: Job
+    private lateinit var verifyIssuerJob: Job
     private lateinit var statusJob: Job
     private var stationInfoData: StationData = stationInfo
 
@@ -206,9 +207,20 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
             }
 
             binding.ivIssuerInfo -> {
-                IssuerInfoDialog().show(childFragmentManager, "IssuerDialog")
+                verifyIssuer()
             }
         }
+    }
+
+    private fun verifyIssuer() {
+        binding.pBar.visibility = View.VISIBLE
+        binding.pBar.isClickable = true
+        binding.etCostValueEdit.isEnabled = false
+        binding.etEnergyValueEdit.isEnabled = false
+
+        verifyIssuerJob = viewModel.verifyIssuer(Preferences.getData(AppConstants.STATION_ID,"")!!)
+
+        observeVerifyData()
     }
 
     private fun startCharging() {
@@ -218,7 +230,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.etEnergyValueEdit.isEnabled = false
         val startChargingRequest =
             StartChargingRequest(
-                "1",
+                Preferences.getData(AppConstants.STATION_ID,"")!!,
                 Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!,
                 energy.toInt()
             )
@@ -232,7 +244,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.pBar.isClickable = true
         val stopChargingRequest =
             StopChargingRequest(
-                "1",
+                Preferences.getData(AppConstants.STATION_ID,"")!!,
                 Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!
             )
         stopChargingJob = viewModel.stopCharging(stopChargingRequest)
@@ -252,6 +264,24 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         observePayCharging()
     }
 
+    private fun observeVerifyData() {
+        viewModel.verifyIssuerData.observe(this) {
+            binding.pBar.visibility = View.GONE
+            binding.pBar.isClickable = false
+            it?.let {
+                when (it.status) {
+                    true -> {
+                        IssuerInfoDialog(it.data).show(childFragmentManager, "IssuerDialog")
+                    }
+
+                    else -> {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
     private fun observeChargingData() {
         viewModel.chargingStatusData.observe(this) {
 
@@ -268,7 +298,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
                     }
 
                     else -> {
-                        println("fail")
+//                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -303,6 +333,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
                 binding.pBar.visibility = View.GONE
                 when (it.status) {
                     true -> {
+                        Preferences.saveData(AppConstants.CHARGE_START, false)
                         showPayDialog(it)
                     }
 
@@ -320,7 +351,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
 
     private fun callProgressApi(startChargingResponse: StartChargingResponse) {
         statusJob =
-            viewModel.getProgress(Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!, "1")
+            viewModel.getProgress(Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!, Preferences.getData(AppConstants.STATION_ID,"")!!)
 
         if (startChargingResponse.energyConsumed!! >= startChargingResponse.requiredEnergy!!) {
             stopCharging()
@@ -337,6 +368,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
 
     private fun savePreferences(startChargingResponse: StartChargingResponse) {
         Preferences.saveData(AppConstants.ENERGY_UNIT, stationInfoData.energy_unit)
+        Preferences.saveData(AppConstants.CHARGE_START, true)
         Preferences.saveData(
             AppConstants.REQUIRED_ENERGY,
             startChargingResponse.requiredEnergy.toString()

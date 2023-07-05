@@ -65,14 +65,19 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="tvTitleProfile" parent="tvTitle">
+    <style name="tvTitleProfile" parent="wrap_wrap">
         <item name="android:textColor">@color/black_trans</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
     </style>
 
-    <style name="tvDescriptionProfile" parent="tvDescription">
+    <style name="tvDescriptionProfile" parent="wrap_wrap">
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

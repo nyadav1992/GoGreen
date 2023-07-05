@@ -2,6 +2,7 @@ package com.example.gogreen
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -55,11 +56,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        if (Preferences.getData(AppConstants.CHARGE_START, false)){
+            Toast.makeText(this, "Back operation not allowed", Toast.LENGTH_SHORT).show()
+        } else {
         if (supportFragmentManager.fragments.size > 1) {
             supportFragmentManager.popBackStack()
             sharedViewModel.showBottomNavigation.value = true
 //                supportActionBar!!.show()
         } else
             onBackPressedDispatcher.onBackPressed()
+        }
     }
 }

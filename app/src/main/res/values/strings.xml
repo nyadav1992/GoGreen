@@ -39,6 +39,7 @@
     <string name="transaction_id">Transaction Id</string>
     <string name="total_amount">Total Amount</string>
 
-    <string name="issuer_name"> Issuer Name</string>
+    <string name="certificate"> Certificate ID</string>
+    <string name="check_verification_status">Check Verification Status</string>
 
 </resources>

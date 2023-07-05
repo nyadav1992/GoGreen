@@ -125,7 +125,7 @@ class HomeFragment : Fragment() {
                 val id:String = mainObject.get("station-id").toString()
                 Preferences.saveData(AppConstants.STATION_ID, id)
                 job = homeViewModel.getStationInfo(id)
-                Toast.makeText(requireActivity(), id, Toast.LENGTH_LONG).show()
+//                Toast.makeText(requireActivity(), id, Toast.LENGTH_LONG).show()
             } catch (jsonException: JSONException) {
                 jsonException.printStackTrace()
                 Toast.makeText(requireActivity(), jsonException.toString(), Toast.LENGTH_LONG).show()

@@ -34,4 +34,7 @@ interface ApiInterface {
     @GET("chargingInfo/charging_progress")
     suspend fun getProgress(@Query("my_wallet_address") my_wallet_address: String, @Query("station_id") station_id: String) : StartChargingResponse
 
+    @GET("verify")
+    suspend fun verifyIssuer(@Query("station_id") station_id: String) : VerifyIssuerResponse
+
 }
