@@ -21,13 +21,13 @@
 
     <TextView
         android:id="@+id/tvCertificateTitle"
-        style="@style/tvTitleProfile"
+        style="@style/tvTitleDialog"
         android:text="@string/certificate"
         android:layout_below="@+id/ivVerify"/>
 
     <TextView
         android:id="@+id/tvCertificateValue"
-        style="@style/tvDescriptionProfile"
+        style="@style/tvDescriptionDialog"
         android:layout_below="@+id/tvCertificateTitle"/>
 
     <LinearLayout
