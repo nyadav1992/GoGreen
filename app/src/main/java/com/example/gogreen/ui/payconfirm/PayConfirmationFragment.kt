@@ -42,7 +42,11 @@ class PayConfirmationFragment(invoiceData: Invoice) : Fragment() {
         val minutes = (totalSecs) / 60;
         val seconds = totalSecs % 60;
 
-        val timeString: String = String.format("%02d Min %02d Sec ", minutes, seconds)
+        var timeString: String = ""
+        if (minutes == 0)
+            timeString = String.format("%02d Sec", seconds)
+        else
+            timeString = String.format("%02d Min %02d Sec ", minutes, seconds)
         invoiceData!!.timeString = timeString
 
         binding.invoiceData = invoiceData

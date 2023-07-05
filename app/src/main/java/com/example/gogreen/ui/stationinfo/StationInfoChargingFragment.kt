@@ -111,7 +111,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.etEnergyValueEdit.addTextChangedListener {
             if (it.toString().isEmpty()) {
                 binding.btnSubmit.isEnabled = false
-                binding.tvCostValueEdit.text = getString(R.string.rs) + " 0.00"
+                binding.tvCostValueEdit.text = getString(R.string.eu) + " 0.00"
                 return@addTextChangedListener
             } else binding.btnSubmit.isEnabled = it.toString().toDouble() > 0
 
@@ -119,7 +119,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
             energy = it.toString().toDouble()
 
             binding.tvCostValueEdit.text =
-                getString(R.string.rs) + " " + dfZero.format(price).toString()
+                getString(R.string.eu) + " " + dfZero.format(price).toString()
         }
         binding.etCostValueEdit.addTextChangedListener {
             if (it.toString().isEmpty()) {
@@ -165,7 +165,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         binding.btnSubmit.isEnabled = false
         binding.tvEnergyValueEdit.hint = "Energy in " + stationInfoData.energy_unit
         binding.tvCostValueEdit.hint =
-            "1 " + stationInfoData.energy_unit + " = " + getString(R.string.rs) + stationInfoData.energy_rate
+            "1 " + stationInfoData.energy_unit + " = " + getString(R.string.eu) + stationInfoData.energy_rate
         binding.tvTitleValue.text =
             " " + stationInfoData.available_energy.toString() + " " + stationInfoData.energy_unit
         binding.tvAddress.text =
@@ -401,17 +401,20 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
             val minutes = (totalSecs) / 60;
             val seconds = totalSecs % 60;
 
-            timeString = String.format("%02d Min %02d Sec ", minutes, seconds)
+            if (minutes == 0)
+                timeString = String.format("%02d Sec", seconds)
+            else
+                timeString = String.format("%02d Min %02d Sec ", minutes, seconds)
 
         }
 
         binding.tvTimeValue.text = timeString
         if (startChargingResponse.price == 0)
             binding.tvCostValue.text =
-                "Rs " + (startChargingResponse.totalPrice!! * startChargingResponse.energyConsumed!!).toString()
+                getString(R.string.eu)+" " + (startChargingResponse.totalPrice!! * startChargingResponse.energyConsumed!!).toString()
         else
             binding.tvCostValue.text =
-                "Rs " + (startChargingResponse.price!! * startChargingResponse.energyConsumed!!).toString()
+                getString(R.string.eu)+" " + (startChargingResponse.price!! * startChargingResponse.energyConsumed!!).toString()
 
         val percent: Double =
             (startChargingResponse.energyConsumed!!.toDouble() / startChargingResponse.requiredEnergy!!.toDouble()) * 100

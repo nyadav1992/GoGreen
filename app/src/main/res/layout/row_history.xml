@@ -115,7 +115,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
-                            android:text='@{"Rs " + myOrder.total_cost}'
+                            android:text='@{String.format(@string/eu) +" "+ myOrder.total_cost}'
                             android:textColor="@color/black"
                             android:textFontWeight="600"
                             android:textSize="12sp" />

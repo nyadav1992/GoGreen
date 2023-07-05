@@ -18,10 +18,12 @@
     <string name="available_energy">Available Energy :</string>
     <string name="energy_required">Energy Required</string>
     <string name="energy_in_rs">Energy in Rs.</string>
+    <string name="energy_in_eu">Energy in \u20ac.</string>
     <string name="energy_delivered">Energy Delivered</string>
     <string name="total_time">Total Time</string>
     <string name="total_cost">Total Cost</string>
     <string name="rs">\u20B9</string>
+    <string name="eu">\u20ac</string>
     <string name="kwh">KWh</string>
     <string name="charging_continued">Charging Continued</string>
     <string name="charging_done">Charging Done</string>

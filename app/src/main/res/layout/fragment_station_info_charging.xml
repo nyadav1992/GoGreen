@@ -182,7 +182,7 @@
             <TextView
                 android:id="@+id/tvCostTitleEdit"
                 style="@style/tvTitle"
-                android:text="@string/energy_in_rs" />
+                android:text="@string/energy_in_eu" />
 
             <RelativeLayout
                 android:layout_width="0dp"

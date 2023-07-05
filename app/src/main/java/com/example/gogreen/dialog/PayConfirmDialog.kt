@@ -30,11 +30,15 @@ class PayConfirmDialog(stopChargingResponse: StopChargingResponse?) : DialogFrag
         val minutes = (totalSecs) / 60;
         val seconds = totalSecs % 60;
 
-        val timeString: String = String.format("%02d Min %02d Sec ", minutes, seconds)
+        var timeString: String = ""
+        if (minutes == 0)
+            timeString = String.format("%02d Sec", seconds)
+        else
+            timeString = String.format("%02d Min %02d Sec ", minutes, seconds)
 
         binding.tvOrderId.text = invoiceData!!.order_id
         binding.tvTimeValue.text = timeString
-        binding.tvCostValue.text = "Rs " + invoiceData!!.total_cost
+        binding.tvCostValue.text = getString(R.string.eu)+" " + invoiceData!!.total_cost
         binding.tvTxnId.text = invoiceData.txn_id
 
         binding.btnHome.setOnClickListener {
