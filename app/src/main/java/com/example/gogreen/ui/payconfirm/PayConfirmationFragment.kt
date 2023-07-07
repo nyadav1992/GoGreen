@@ -10,10 +10,12 @@ import android.view.ViewGroup
 import com.example.gogreen.MainActivity
 import com.example.gogreen.data.Invoice
 import com.example.gogreen.databinding.FragmentPayConfirmationBinding
+import java.text.DecimalFormat
 
 class PayConfirmationFragment(invoiceData: Invoice) : Fragment() {
     private val invoiceData: Invoice? = invoiceData
     private var _binding: FragmentPayConfirmationBinding? = null
+    private val dfZero: DecimalFormat = DecimalFormat("0.00")
 
     private val binding get() = _binding!!
 

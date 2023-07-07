@@ -2,7 +2,7 @@ package com.example.gogreen.data
 
 data class MyOrder(
     val current: Double,
-    val energyTransferTimeInSeconds: Double,
+    val energyTransferTimeInSeconds: Int,
     val energy_amount: Double,
     val order_id: String,
     val seller: String,
@@ -11,7 +11,7 @@ data class MyOrder(
     val seller_name: String,
     val status: Double,
     val total_cost: Double,
-    val transferRate: Double,
+    val transferRate: Int,
     val txn_id: String,
     val updationDate: String,
     var transactionDate: String,

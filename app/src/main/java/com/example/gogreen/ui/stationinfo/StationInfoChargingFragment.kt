@@ -232,7 +232,7 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
             StartChargingRequest(
                 Preferences.getData(AppConstants.STATION_ID,"")!!,
                 Preferences.getData(AppConstants.WALLET_ADDRESS, "")!!,
-                energy.toInt()
+                energy.toDouble()
             )
         startChargingJob = viewModel.startCharging(startChargingRequest)
 
@@ -409,12 +409,12 @@ class StationInfoChargingFragment(stationInfo: StationData) : Fragment(), OnClic
         }
 
         binding.tvTimeValue.text = timeString
-        if (startChargingResponse.price == 0)
+        if (startChargingResponse.price == 0.0)
             binding.tvCostValue.text =
-                getString(R.string.eu)+" " + (startChargingResponse.totalPrice!! * startChargingResponse.energyConsumed!!).toString()
+                getString(R.string.eu)+" " + dfZero.format((startChargingResponse.totalPrice!! * startChargingResponse.energyConsumed!!)).toString()
         else
             binding.tvCostValue.text =
-                getString(R.string.eu)+" " + (startChargingResponse.price!! * startChargingResponse.energyConsumed!!).toString()
+                getString(R.string.eu)+" " + dfZero.format(startChargingResponse.price!! * startChargingResponse.energyConsumed!!).toString()
 
         val percent: Double =
             (startChargingResponse.energyConsumed!!.toDouble() / startChargingResponse.requiredEnergy!!.toDouble()) * 100

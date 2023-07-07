@@ -2,7 +2,7 @@ package com.example.gogreen.data
 
 data class Invoice(
     val current: Double,
-    val energyTransferTimeInSeconds: Double,
+    val energyTransferTimeInSeconds: Int,
     val energy_amount: Double,
     val order_id: String,
     val seller: String,

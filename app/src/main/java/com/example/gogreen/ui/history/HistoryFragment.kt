@@ -41,7 +41,6 @@ class HistoryFragment : Fragment() {
         historyViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        Preferences.saveData(AppConstants.STATION_ID, "0xfDb51BEC9453E011780000bbd5257397AB78c452")
 
         return root
     }
@@ -49,7 +48,7 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.shimmer.startShimmer()
-        historyViewModel.getHistoryData(Preferences.getData(AppConstants.STATION_ID,"")!!)
+        historyViewModel.getHistoryData(Preferences.getData(AppConstants.WALLET_ADDRESS,"")!!)
 
         observeHistoryData()
     }

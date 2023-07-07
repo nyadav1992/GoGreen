@@ -63,7 +63,7 @@
                             android:id="@+id/tv_energy_value"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text='@{Integer.toString(myOrder.energy_amount) + " " + myOrder.energy_unit}'
+                            android:text='@{Double.toString(myOrder.energy_amount) + " " + myOrder.energy_unit}'
                             android:textColor="@color/black"
                             android:textFontWeight="600"
                             android:textSize="12sp" />
@@ -89,6 +89,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text='@{myOrder.chargeDuration}'
+                            android:layout_gravity="center"
                             android:textColor="@color/black"
                             android:textFontWeight="600"
                             android:textSize="12sp" />

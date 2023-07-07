@@ -21,7 +21,7 @@ class ApiModule {
 
     @Provides
     fun provideBaseUrl(): String{
-        return "http://20.241.108.184:3003/"
+        return "http://20.241.108.184:3002/"
     }
 
     @Provides

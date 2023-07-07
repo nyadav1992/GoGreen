@@ -67,19 +67,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Preferences.saveData(AppConstants.STATION_ID, "0xfDb51BEC9453E011780000bbd5257397AB78c452")
 
         binding.ivBarcode.setOnClickListener {
 
-//            launchChargingInfoFragment()
-//            binding.pBar.visibility = View.VISIBLE
-//            job = homeViewModel.getStationInfo("1")
-//            observeStationInfoData()
-//            homeViewModel.getStationInfo("0xfDb51BEC9453E011780000bbd5257397AB78c452")
 
+            Preferences.saveData(AppConstants.STATION_ID, "2")
+            job = homeViewModel.getStationInfo("2")
+            observeStationInfoData()
 
-
-            launchBarcodeScanner()
+//            launchBarcodeScanner()
 
         }
 
